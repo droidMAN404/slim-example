@@ -21,7 +21,7 @@ $app->get('/', function ($request, $response) {
 $app->get('/users/{id}', function ($request, $response, $args) {
 	$params = ['id' => $args['id'], 'nickname' => 'user-' . $args['id']];
 
-	return $this->get('renderer')->render($response, 'users/show.tpl', $params);
+	return $this->get('renderer')->render($response, 'users/show.phtml', $params);
 });
 
 $users = ['mike', 'mishel', 'adel', 'keks', 'kamila'];
@@ -37,7 +37,7 @@ $app->get('/users', function ($request, $response) use ($users) {
 		'users' => $searchedUsers
 	];
 
-	return $this->get('renderer')->render($response, 'users/users.tpl', $params);
+	return $this->get('renderer')->render($response, 'users/users.phtml', $params);
 });
 
 $app->run();
