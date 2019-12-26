@@ -24,5 +24,21 @@ $app->get('/users/{id}', function ($request, $response, $args) {
 	return $this->get('renderer')->render($response, 'users/show.tpl', $params);
 });
 
+$users = ['mike', 'mishel', 'adel', 'keks', 'kamila'];
+
+$app->get('/users', function ($request, $response) use ($users) {
+	$term = $request->getQueryParam('term');
+	$searchedUsers = array_filter($users, function ($user) use ($term) {
+		return strpos($user, $term) !== false;
+	});
+
+	$params = [
+		'term' => $term,
+		'users' => $searchedUsers
+	];
+
+	return $this->get('renderer')->render($response, 'users/users.tpl', $params);
+});
+
 $app->run();
 
