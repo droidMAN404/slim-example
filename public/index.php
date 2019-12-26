@@ -1,15 +1,28 @@
 <?php
 
-
 require __DIR__ . '/../vendor/autoload.php';
 
 use Slim\Factory\AppFactory;
+use DI\Container;
+
+$container = new Container();
+$container->set('renderer', function () {
+	return new \Slim\Views\PhpRenderer(__DIR__ . '/../templates');
+});
+AppFactory::setContainer($container);
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 
 $app->get('/', function ($request, $response) {
-     return $response->write('Welcome to Slim!');
-     });
+     return $response->write('Hello, world!');
+});
+
+$app->get('/users/{id}', function ($request, $response, $args) {
+	$params = ['id' => $args['id'], 'nickname' => 'user-' . $args['id']];
+
+	return $this->get('renderer')->render($response, 'users/show.tpl', $params);
+});
+
 $app->run();
 
