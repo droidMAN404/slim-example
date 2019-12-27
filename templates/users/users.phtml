@@ -1,13 +1,24 @@
 <h1>Users list</h1>
 <br>
+<div><a href="/users/new">Добавить нового</a></div>
+
 <form action="/users" method="get">
     <input type="search" name="term" placeholder="search" value="<?= htmlspecialchars($term) ?>" />
     <input type="submit" value="Search" />
 </form>  
 <hr>
 <br>
-<ul>
-  <?php foreach ($users as $user) : ?>
-    <li><?= $user ?></li>
-  <?php endforeach; ?>
-</ul>
+<table>
+ <tr>
+   <th>Nickname</th>
+   <th>Email</th>
+   <th>id</th>
+ </tr>
+ <?php foreach ($users as $key => $user) : ?>
+  <tr>
+    <td><?= $user['nickname'] ?></td>
+    <td><?= $user['email'] ?></td>
+    <td><?=$key + 100 ?></td>
+  </tr>
+ <?php endforeach; ?>
+</table> 
