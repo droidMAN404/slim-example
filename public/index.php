@@ -14,10 +14,11 @@ $container->set('renderer', function () {
 AppFactory::setContainer($container);
 
 $app = AppFactory::create();
+$router = $app->getRouteCollector()->getRouteParser();
 $app->addErrorMiddleware(true, true, true);
 
-$app->get('/', function ($request, $response) {
-    return $response->withHeader('Location', '/users')
+$app->get('/', function ($request, $response) use ($router) {
+    return $response->withHeader('Location', $router->urlFor('users'))
     ->withStatus(302);
 });
 
@@ -41,7 +42,7 @@ $app->get('/users', function ($request, $response) use ($repo) {
 	];
 
 	return $this->get('renderer')->render($response, 'users/users.phtml', $params);
-});
+})->setName('users');
 
 $app->get('/users/new', function ($request, $response) {
 	$params = [
